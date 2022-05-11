@@ -1,0 +1,98 @@
+function openWidget() {
+    if (document.body === null) {
+        return false;
+    }
+
+    const doc = document.currentScript;
+    const src = doc?.getAttribute("src");
+    const theme = doc?.getAttribute("data-theme") ?? "0";
+    const title = doc?.getAttribute("data-title") ?? "Deixe seu Feedback";
+    const email = doc?.getAttribute("data-email") ?? "noreply@suaempresa.com";
+    const whatsApp = doc?.getAttribute("data-whatsapp") ?? "";
+    const open = doc?.getAttribute("data-open") ?? "true";
+    const code = doc?.getAttribute("data-code") ?? "teste";
+
+    if (!src) {
+        return false;
+    }
+
+    let srcIframe = "";
+
+    srcIframe = src.replace("/widget.js", "") + "/widget"; //https://widget-eta-nine.vercel.app/widget
+    srcIframe += `?theme=${theme}`;
+    srcIframe += `&title=${title}`;
+    srcIframe += `&email=${email}`;
+    srcIframe += `&whatsapp=${whatsApp}`;
+    srcIframe += `&open=${open}`;
+    srcIframe += `&code=${code}`;
+
+    srcIframe = encodeURI(srcIframe);
+
+    console.log("importado widget de: ", srcIframe);
+
+    if (code !== "demo") {
+        console.log("code widget dev não identificado");
+    }
+
+    let iFrame: HTMLIFrameElement;
+    let iFrameElement = document.getElementById("iframeWidget");
+
+    if (!iFrameElement) {
+        iFrame = document.createElement("iframe");
+        iFrame.id = "iframeWidget";
+        iFrame.title = "iframe Widget";
+        iFrame.setAttribute(
+            "style",
+            "position: fixed; right: 20px; bottom: 20px; border:0px;"
+        );
+
+        document.body.appendChild(iFrame);
+        iFrameElement = document.getElementById("iframeWidget");
+    }
+
+    if (!iFrameElement) {
+        console.log("element widget não criado e/ou localizado!");
+        return false;
+    }
+
+    iFrame = iFrameElement as HTMLIFrameElement;
+    iFrame.src = srcIframe;
+
+    iFrame.onload = function () {
+        // if (isIFrame(iFrame) && iFrame.contentWindow) {
+        //     iFrame.contentWindow.postMessage("iFrameWidgetOk", "*");
+        // }
+
+        if (window.addEventListener) {
+            window.addEventListener("message", OnMessage, false);
+        }
+    };
+}
+openWidget();
+
+function OnMessage(e: MessageEvent) {
+    let width = e.data.width;
+    let height = e.data.height;
+
+    if (width < 400) {
+        width = 400;
+        if (window.screen.width < width) {
+            width = window.screen.width;
+        }
+    }
+
+    const iFrameElement = document.getElementById("iframeWidget");
+
+    if (!iFrameElement) {
+        console.log("element widget não foi localizado!");
+        return false;
+    }
+
+    iFrameElement.style.width = width + "px";
+    iFrameElement.style.height = height + "px";
+}
+
+const isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
+    input !== null && input.tagName === "IFRAME";
+
+export { openWidget };
