@@ -89,8 +89,6 @@ O projeto é uma aplicação para coleta de feedbacks que pode ser adicionado em
 
 Você pode visualizar o layout do projeto original através do link abaixo:
 
-- [Layout Web](https://www.figma.com/file/xHveOl5sXHMQfXFZ69H1AR/Feedback-Widget)
-
 
 ## 🔖 NextLevel
 
@@ -121,11 +119,6 @@ Abaixo as melhorias que realizei no projeto em relação ao projeto original
 <script async data-theme="0" data-title="Deixe seu Feedback" data-email="contato@minhaempresa.com" data-open="true" data-code="demo" src="https://widget-eta-nine.vercel.app/widget.js"></script>
 
 ```
-
-## 🔖 Exemplos
-
-- [https://widget-eta-nine.vercel.app](https://widget-eta-nine.vercel.app)
-
 
 ## 📝 License
 
